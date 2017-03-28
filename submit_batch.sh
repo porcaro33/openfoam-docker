@@ -9,4 +9,5 @@ do
   JOBNAME="JOB$i"
   aws batch submit-job --job-name $JOBNAME --job-queue $QUEUE --job-definition $JOBDEF
   echo "submitted $JOBNAME"
+  sleep 30
 done
