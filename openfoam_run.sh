@@ -16,4 +16,7 @@ blockMesh
 simpleFoam
 
 # upload U to S3
-aws s3 cp ./200/U s3://$BUCKETNAME/U_JOBID
+TIMESTAMP=`date +%Y%m%d%H%M`
+cp ./298/U /root/$TIMESTAMP
+cat /root/$TIMESTAMP
+aws s3 cp ./298/U s3://$BUCKETNAME/$TIMESTAMP
