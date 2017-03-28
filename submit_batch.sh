@@ -1,7 +1,7 @@
 #!/bin/bash
 
 QUEUE="openfoam-job-queue"
-JOBDEF="openfoam-docker.1"
+JOBDEF="openfoam-docker"
 MAXITR=5
 
 for i in `seq 1 $MAXITR`
