@@ -1,0 +1,19 @@
+{
+    "jobDefinitionName": "openfoam-docker",
+    "jobDefinitionArn": "arn:aws:batch:us-east-1:532874062207:job-definition/openfoam-docker:1",
+    "revision": 1,
+    "status": "ACTIVE",
+    "type": "container",
+    "parameters": {},
+    "containerProperties": {
+        "image": "532874062207.dkr.ecr.us-east-1.amazonaws.com/openfoam-docker",
+        "vcpus": 1,
+        "memory": 500,
+        "command": [],
+        "jobRoleArn": "arn:aws:iam::532874062207:role/jaws.hpc.batch",
+        "volumes": [],
+        "environment": [],
+        "mountPoints": [],
+        "ulimits": []
+    }
+}
