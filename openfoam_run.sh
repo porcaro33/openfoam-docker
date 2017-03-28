@@ -6,6 +6,7 @@ BUCKETNAME="openfoam.batch"
 # run OpenFoam4 with tutrial model "pitzDaily"
 source /opt/openfoam4/etc/bashrc
 source /root/.bashrc
+export PATH=/root/.local/bin:$PATH
 
 cd /root
 mkdir -p $FOAM_RUN
