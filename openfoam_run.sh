@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # geting JOB ID, bucket name
-BUCKETNAME="s3://openfoam.batch/"
+BUCKETNAME="openfoam.batch"
 
 # run OpenFoam4 with tutrial model "pitzDaily"
 source /opt/openfoam4/etc/bashrc
@@ -17,6 +17,6 @@ simpleFoam
 
 # upload U to S3
 TIMESTAMP=`date +%Y%m%d%H%M`
-cp ./298/U /root/$TIMESTAMP
-cat /root/$TIMESTAMP
+#cp ./298/U /root/$TIMESTAMP
+#cat /root/$TIMESTAMP
 aws s3 cp ./298/U s3://$BUCKETNAME/$TIMESTAMP
