@@ -1,0 +1,28 @@
+{
+  "computeEnvironmentName": "M3Spot",
+  "type": "MANAGED",
+  "state": "ENABLED",
+  "computeResources": {
+    "type": "SPOT",
+    "spotIamFleetRole": "arn:aws:iam::532874062207:role/aws-ec2-spot-fleet-role",
+    "minvCpus": 0,
+    "maxvCpus": 10,
+    "desiredvCpus": 1,
+    "instanceTypes": [
+      "m3"
+    ],
+    "bidPercentage": 20,
+    "subnets": [
+      "subnet-730a655e",
+      "subnet-1e570b57",
+      "subnet-8d8de9d6",
+      "subnet-7e348442"
+    ],
+    "securityGroupIds": [
+      "sg-19a3bc64"
+    ],
+    "ec2KeyPair": "porcaro33",
+    "instanceRole": "porcaro33"
+  },
+  "serviceRole": "arn:aws:iam::532874062207:role/service-role/AWSBatchServiceRole"
+}
