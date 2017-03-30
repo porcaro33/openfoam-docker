@@ -17,5 +17,5 @@ blockMesh
 simpleFoam
 
 # upload U to S3
-TIMESTAMP=`date +%Y%m%d%H%M`
+TIMESTAMP=`date +%Y%m%d%H%M%S%N`
 aws s3 cp ./298/U s3://$BUCKETNAME/$TIMESTAMP
