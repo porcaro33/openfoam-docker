@@ -19,8 +19,6 @@ RUN set -x && \
     sudo apt-get -y update && \
     sudo apt-get -y install openfoam4 && \
     sudo echo "source /opt/openfoam4/etc/bashrc" >> /root/.bashrc && \
-    #sudo chmod +x /root/.bashrc && \
-    #/bin/bash -c "source /opt/openfoam4/etc/bashrc" && \
 
     # install awscli
     sudo curl -O https://bootstrap.pypa.io/get-pip.py && \

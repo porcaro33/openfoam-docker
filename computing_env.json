@@ -4,25 +4,25 @@
   "state": "ENABLED",
   "computeResources": {
     "type": "SPOT",
-    "spotIamFleetRole": "arn:aws:iam::532874062207:role/aws-ec2-spot-fleet-role",
-    "minvCpus": 0,
+    "spotIamFleetRole": "arn:aws:iam::XXXXXXXXXXXX:role/aws-ec2-spot-fleet-role",
+    "minvCpus": 1,
     "maxvCpus": 10,
     "desiredvCpus": 1,
     "instanceTypes": [
       "m3"
     ],
-    "bidPercentage": 20,
+    "bidPercentage": 40,
     "subnets": [
-      "subnet-730a655e",
-      "subnet-1e570b57",
-      "subnet-8d8de9d6",
-      "subnet-7e348442"
+      "subnet-XXXXXXXX",
+      "subnet-XXXXXXXX",
+      "subnet-XXXXXXXX",
+      "subnet-XXXXXXXX"
     ],
     "securityGroupIds": [
-      "sg-19a3bc64"
+      "sg-XXXXXXXX"
     ],
-    "ec2KeyPair": "porcaro33",
-    "instanceRole": "porcaro33"
+    "ec2KeyPair": "<your-key-pair>",
+    "instanceRole": "<your-role>"
   },
-  "serviceRole": "arn:aws:iam::532874062207:role/service-role/AWSBatchServiceRole"
+  "serviceRole": "arn:aws:iam::XXXXXXXXXXXX:role/service-role/AWSBatchServiceRole"
 }

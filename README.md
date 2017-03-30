@@ -15,6 +15,6 @@ steps
 3. build Docker images with the Dockerfile
 4. push the images to AWS ECR
 5. create job definition on AWS Batch (job_definition.json)
-6. create job queue on AWS Batch
-7. create computing environment on AWS Batch
-8. submit jobs (submit_batch.sh)
+6. create computing environment on AWS Batch
+7. create job queue on AWS Batch
+8. submit jobs
