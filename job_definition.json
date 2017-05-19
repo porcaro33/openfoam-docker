@@ -7,11 +7,13 @@
         "vcpus": 1,
         "memory": 500,
         "command": [],
-        "attempts": 3,
         "jobRoleArn": "arn:aws:iam::XXXXXXXXXXXX:role/openfoam-docker-job-role",
         "volumes": [],
         "environment": [],
         "mountPoints": [],
         "ulimits": []
+    },
+    "retryStrategy": {
+        "attempts": 3
     }
 }
