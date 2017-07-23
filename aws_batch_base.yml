@@ -4,9 +4,9 @@ Description: "AWS Batch Hands-on - base infrastructure"
 Mappings:
   SubnetConfig:
     VPC:
-      CIDR: 10.0.10.0/24
+      CIDR: 10.0.100.0/24
     Public:
-      CIDR: 10.0.10.0/24
+      CIDR: 10.0.100.0/24
 
 Resources:
   VPC:
@@ -92,21 +92,19 @@ Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: SecurityGroup for AWS Batch instances
+      GroupDescription: SecurityGroup for AWS Batch instances (allow ssh from anywhere)
       VpcId: !Ref VPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
       Tags:
         - Key: Name
           Value: BatchInstanceSecGrp
         - Key: Application
           Value: !Ref AWS::StackName
 
-  SecurityGroupIngress:
-    Type: AWS::EC2::SecurityGroupIngress
-    DependsOn: SecurityGroup
-    Properties:
-      GroupId: !Ref SecurityGroup
-      IpProtocol: -1
-      SourceSecurityGroupId: !Ref SecurityGroup
 
   AWSBatchServiceRole:
     Type: AWS::IAM::Role
@@ -136,7 +134,7 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole
       Path: /
 
-  BatchInstanceRole:
+  BastionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -147,46 +145,39 @@ Resources:
               Service: ec2.amazonaws.com
             Action: sts:AssumeRole
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+        - arn:aws:iam::aws:policy/AdministratorAccess
       Path: /
 
-  BatchInstanceProfile:
+  BastionInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
-      Roles:
-        - !Ref BatchInstanceRole
       Path: /
+      Roles:
+        - !Ref BastionRole
 
   S3Bucket:
     Type: AWS::S3::Bucket
-
-  BatchJobRole:
-    Type: AWS::IAM::Role
     Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: ecs-tasks.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: batch-job-policy
-          PolicyDocument:
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:PutObject
-                Resource:
-                  - Fn::Join: ['', ['arn:aws:s3:::', {Ref: S3Bucket}, '/*' ]]
-      Path: /
+      BucketName: openfoam.batch
+
+  BastionEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-835b4efa
+      InstanceType: t2.micro
+      IamInstanceProfile: !Ref BastionInstanceProfile
+      KeyName: porcaro33
+      SecurityGroupIds:
+        - Ref: "SecurityGroup"
+      SubnetId: !Ref PublicSubnet
+
 
 Outputs:
     VPC:
         Description: A VPC for AWS Batch
         Value: !Ref VPC
 
-    PublicSubnet1:
+    PublicSubnet:
         Description: Public subnet for AWS Batch
         Value: !Ref PublicSubnet
 
@@ -198,10 +189,6 @@ Outputs:
         Description: A service role for EC2 SpotFleet to access ec2 resources
         Value: !GetAtt AmazonEC2SpotFleetRole.Arn
 
-    BatchInstanceProfile:
-        Description: A instance profile for Batch instances
-        Value: !GetAtt BatchInstanceProfile.Arn
-
     SecurityGroup:
         Description: A security group for Batch instances
         Value: !Ref SecurityGroup
@@ -210,6 +197,6 @@ Outputs:
         Description: A S3 bucket for job results
         Value: !Ref S3Bucket
 
-    BatchJobRole:
-        Description: A task role for Batch jobs
-        Value: !GetAtt BatchJobRole.Arn
+    BastionEC2:
+        Description: Bastion EC2 (Amazon Linux)
+        Value: !GetAtt BastionEC2.PublicIp
