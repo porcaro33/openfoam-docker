@@ -8,6 +8,12 @@ Mappings:
     Public:
       CIDR: 10.0.100.0/24
 
+Parameters:
+  KeyPairName:
+    Type: String
+    Default: your-key-name
+    Description: enter your keypair name
+
 Resources:
   VPC:
     Type: AWS::EC2::VPC
