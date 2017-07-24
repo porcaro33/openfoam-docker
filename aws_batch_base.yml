@@ -111,6 +111,10 @@ Resources:
         - Key: Application
           Value: !Ref AWS::StackName
 
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: openfoam.batch
 
   AWSBatchServiceRole:
     Type: AWS::IAM::Role
@@ -138,7 +142,7 @@ Resources:
             Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole
-      Path: /
+      Path: /service-role/
 
   BastionRole:
     Type: AWS::IAM::Role
@@ -161,10 +165,33 @@ Resources:
       Roles:
         - !Ref BastionRole
 
-  S3Bucket:
-    Type: AWS::S3::Bucket
+  ECSInstanceRole:
+    Type: AWS::IAM::Role
     Properties:
-      BucketName: openfoam.batch
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: batch-s3-access
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource:
+                  - Fn::Join: ['', ['arn:aws:s3:::', {Ref: S3Bucket}, '/*' ]]
+      Path: /
+
+  ECSInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref ECSInstanceRole
 
   BastionEC2:
     Type: AWS::EC2::Instance
@@ -172,10 +199,19 @@ Resources:
       ImageId: ami-835b4efa
       InstanceType: t2.micro
       IamInstanceProfile: !Ref BastionInstanceProfile
-      KeyName: porcaro33
+      KeyName: !Ref KeyPairName
       SecurityGroupIds:
         - Ref: "SecurityGroup"
       SubnetId: !Ref PublicSubnet
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sda1"
+          Ebs:
+            VolumeType: "gp2"
+            VolumeSize: "50"
+            DeleteOnTermination: "true"
+      Tags:
+        - Key: Name
+          Value: Ubuntu Bastion
 
 
 Outputs:
@@ -194,6 +230,10 @@ Outputs:
     AmazonEC2SpotFleetRole:
         Description: A service role for EC2 SpotFleet to access ec2 resources
         Value: !GetAtt AmazonEC2SpotFleetRole.Arn
+
+    AWSBatchECSInstanceProfile:
+        Description: A instance profile for Batch ECS Cluster to access to s3
+        Value: !Ref ECSInstanceProfile
 
     SecurityGroup:
         Description: A security group for Batch instances
