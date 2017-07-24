@@ -5,7 +5,7 @@
   "computeEnvironmentOrder": [
     {
       "order": 1,
-      "computeEnvironment": "M3Spot"
+      "computeEnvironment": "C4Spot"
     }
   ]
 }
