@@ -4,7 +4,7 @@
   "state": "ENABLED",
   "computeResources": {
     "type": "SPOT",
-    "spotIamFleetRole": "arn:aws:iam::XXXXXXXXXXXX:role/aws-ec2-spot-fleet-role",
+    "spotIamFleetRole": "arn:aws:iam::<account-id>:role/aws-ec2-spot-fleet-role",
     "minvCpus": 0,
     "maxvCpus": 10,
     "desiredvCpus": 0,
@@ -24,5 +24,5 @@
     "tags": {
       "Name": "OpenFoam Batch Instance"
   },
-  "serviceRole": "arn:aws:iam::XXXXXXXXXXXX:role/service-role/AWSBatchServiceRole"
+  "serviceRole": "arn:aws:iam::<account-id>:role/service-role/AWSBatchServiceRole"
 }
