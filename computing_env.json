@@ -1,20 +1,18 @@
 {
-  "computeEnvironmentName": "M3Spot",
+  "computeEnvironmentName": "C4Spot",
   "type": "MANAGED",
   "state": "ENABLED",
   "computeResources": {
     "type": "SPOT",
     "spotIamFleetRole": "arn:aws:iam::XXXXXXXXXXXX:role/aws-ec2-spot-fleet-role",
-    "minvCpus": 1,
+    "minvCpus": 0,
     "maxvCpus": 10,
-    "desiredvCpus": 1,
+    "desiredvCpus": 0,
     "instanceTypes": [
-      "m3"
+      "c4"
     ],
     "bidPercentage": 40,
     "subnets": [
-      "subnet-XXXXXXXX",
-      "subnet-XXXXXXXX",
       "subnet-XXXXXXXX",
       "subnet-XXXXXXXX"
     ],
@@ -22,7 +20,9 @@
       "sg-XXXXXXXX"
     ],
     "ec2KeyPair": "<your-key-pair>",
-    "instanceRole": "<your-role>"
+    "instanceRole": "<your-role>",
+    "tags": {
+      "Name": "OpenFoam Batch Instance"
   },
   "serviceRole": "arn:aws:iam::XXXXXXXXXXXX:role/service-role/AWSBatchServiceRole"
 }
