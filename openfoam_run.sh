@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # geting JOB ID, bucket name
-BUCKETNAME="openfoam.batch"
+BUCKETNAME="openfoam-batch-bucket"
 
 # run OpenFoam4 with tutrial model "pitzDaily"
 source /opt/openfoam4/etc/bashrc
