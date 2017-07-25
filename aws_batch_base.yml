@@ -114,12 +114,12 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: openfoam.batch
+      BucketName: openfoam-batch-bucket
 
   ECR:
     Type: "AWS::ECR::Repository"
     Properties:
-      RepositoryName: "openfoam-docker"
+      RepositoryName: "openfoam-batch"
 
   AWSBatchServiceRole:
     Type: AWS::IAM::Role
