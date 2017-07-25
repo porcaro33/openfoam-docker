@@ -174,7 +174,7 @@ Resources:
               Service: ecs-tasks.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: batch-ecs-policy
+        - PolicyName: batch-s3-access
           PolicyDocument:
             Statement:
               - Effect: Allow
@@ -252,7 +252,7 @@ Outputs:
 
     JobRoleArn:
         Description: A role for EC2 SpotFleet to access ec2 resources
-        Value: !GetAtt BatchInstanceRole.Arn
+        Value: !GetAtt BatchJobRole.Arn
 
     ComputeInstanceRole:
         Description: A instance role for Batch ECS Cluster and s3 access
