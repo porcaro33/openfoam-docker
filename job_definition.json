@@ -3,11 +3,11 @@
     "type": "container",
     "parameters": {},
     "containerProperties": {
-        "image": "XXXXXXXXXXXX.dkr.ecr.us-east-1.amazonaws.com/XXXXXXXX",
+        "image": "<account-id>.dkr.ecr.us-east-1.amazonaws.com/openfoam-docker",
         "vcpus": 1,
         "memory": 500,
         "command": [],
-        "jobRoleArn": "arn:aws:iam::XXXXXXXXXXXX:role/openfoam-docker-job-role",
+        "jobRoleArn": "arn:aws:iam::<account-id>:role/openfoam-docker-job-role",
         "volumes": [],
         "environment": [],
         "mountPoints": [],
