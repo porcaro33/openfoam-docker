@@ -268,7 +268,7 @@ Outputs:
 
     ECR:
         Description: ECR for openfoam-docker
-        Value: !GetAtt ECR.Arn
+        Value: !Ref ECR
 
     BastionEC2:
         Description: Bastion EC2 (Amazon Linux)
