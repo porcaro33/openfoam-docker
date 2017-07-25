@@ -6,16 +6,13 @@ export AWS_DEFAULT_PROFILE=<your_profile>
 aws configure
 
 # docker build
-docker build -t openfoam-docker:latest .
-
-# create ECR
-aws --region us-west-2 ecr create-repository --repository-name openfoam-docker
+docker build -t openfoam-batch:latest .
 
 # push to ECR
 aws ecr get-login --no-include-email --region us-west-2
 # Run the docker login command that was returned in "ecr get-login" command
-sudo docker tag openfoam-docker:latest <account-id>.dkr.ecr.us-west-2.amazonaws.com/openfoam-docker:latest
-sudo docker push <account-id>.dkr.ecr.us-west-2.amazonaws.com/openfoam-docker:latest
+sudo docker tag openfoam-batch:latest <account-id>.dkr.ecr.us-west-2.amazonaws.com/openfoam-batch:latest
+sudo docker push <account-id>.dkr.ecr.us-west-2.amazonaws.com/openfoam-batch:latest
 
 # job definition
 aws --region us-west-2 batch register-job-definition --cli-input-json file://job_definition.json
