@@ -4,7 +4,7 @@
   "state": "ENABLED",
   "computeResources": {
     "type": "SPOT",
-    "spotIamFleetRole": "arn:aws:iam::<account-id>:role/aws-ec2-spot-fleet-role",
+    "spotIamFleetRole": "arn:aws:iam::<account-id>:role/AmazonEC2SpotFleetRole",
     "minvCpus": 0,
     "maxvCpus": 10,
     "desiredvCpus": 0,
@@ -13,16 +13,13 @@
     ],
     "bidPercentage": 40,
     "subnets": [
-      "subnet-XXXXXXXX",
       "subnet-XXXXXXXX"
     ],
     "securityGroupIds": [
       "sg-XXXXXXXX"
     ],
     "ec2KeyPair": "<your-key-pair>",
-    "instanceRole": "<your-role>",
-    "tags": {
-      "Name": "OpenFoam Batch Instance"
+    "instanceRole": "<your-role>"
   },
   "serviceRole": "arn:aws:iam::<account-id>:role/service-role/AWSBatchServiceRole"
 }
