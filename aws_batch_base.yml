@@ -116,6 +116,11 @@ Resources:
     Properties:
       BucketName: openfoam.batch
 
+  ECR:
+    Type: "AWS::ECR::Repository"
+    Properties:
+      RepositoryName: "openfoam-docker"
+
   AWSBatchServiceRole:
     Type: AWS::IAM::Role
     Properties:
@@ -144,6 +149,48 @@ Resources:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole
       Path: /service-role/
 
+  BatchInstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+      Path: /service-role/
+
+  BatchJobRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: batch-ecs-policy
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource:
+                  - Fn::Join: ['', ['arn:aws:s3:::', {Ref: S3Bucket}, '/*' ]]
+      Path: /
+
+  BatchInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref BatchInstanceRole
+
   BastionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -164,34 +211,6 @@ Resources:
       Path: /
       Roles:
         - !Ref BastionRole
-
-  ECSInstanceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: ec2.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: batch-s3-access
-          PolicyDocument:
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:PutObject
-                Resource:
-                  - Fn::Join: ['', ['arn:aws:s3:::', {Ref: S3Bucket}, '/*' ]]
-      Path: /
-
-  ECSInstanceProfile:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Path: /
-      Roles:
-        - !Ref ECSInstanceRole
 
   BastionEC2:
     Type: AWS::EC2::Instance
@@ -231,9 +250,13 @@ Outputs:
         Description: A service role for EC2 SpotFleet to access ec2 resources
         Value: !GetAtt AmazonEC2SpotFleetRole.Arn
 
-    AWSBatchECSInstanceProfile:
-        Description: A instance profile for Batch ECS Cluster to access to s3
-        Value: !Ref ECSInstanceProfile
+    JobRoleArn:
+        Description: A role for EC2 SpotFleet to access ec2 resources
+        Value: !GetAtt BatchInstanceRole.Arn
+
+    ComputeInstanceRole:
+        Description: A instance role for Batch ECS Cluster and s3 access
+        Value: !GetAtt BatchInstanceProfile.Arn
 
     SecurityGroup:
         Description: A security group for Batch instances
@@ -242,6 +265,10 @@ Outputs:
     S3Bucket:
         Description: A S3 bucket for job results
         Value: !Ref S3Bucket
+
+    ECR:
+        Description: ECR for openfoam-docker
+        Value: !GetAtt ECR.Arn
 
     BastionEC2:
         Description: Bastion EC2 (Amazon Linux)
