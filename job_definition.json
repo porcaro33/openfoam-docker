@@ -3,11 +3,11 @@
     "type": "container",
     "parameters": {},
     "containerProperties": {
-        "image": "<account-id>.dkr.ecr.us-east-1.amazonaws.com/openfoam-batch",
+        "image": "<account-id>.dkr.ecr.us-west-2.amazonaws.com/openfoam-batch",
         "vcpus": 1,
         "memory": 500,
         "command": [],
-        "jobRoleArn": "arn:aws:iam::<account-id>:role/openfoam-batch-job-role",
+        "jobRoleArn": "arn:aws:iam::<account-id>:role/BatchJobRole",
         "volumes": [],
         "environment": [],
         "mountPoints": [],
