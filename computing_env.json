@@ -19,7 +19,7 @@
       "sg-XXXXXXXX"
     ],
     "ec2KeyPair": "<your-key-pair>",
-    "instanceRole": "<your-role>"
+    "instanceRole": "<your-instance-role>"
   },
   "serviceRole": "arn:aws:iam::<account-id>:role/service-role/AWSBatchServiceRole"
 }
