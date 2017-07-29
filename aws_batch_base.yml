@@ -231,7 +231,13 @@ Resources:
       Tags:
         - Key: Name
           Value: Ubuntu Bastion
-
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          cd /home/ubuntu
+          git clone https://github.com/porcaro33/openfoam-docker.git
+          cd openfoam-docker
+          ./bastion_setup.sh
 
 Outputs:
     VPC:
